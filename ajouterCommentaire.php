@@ -1,36 +1,29 @@
+<?php 
+session_start();
+if(isset($_SESSION['login_in']))
+{
+?>
 <?php  
-include($_SERVER["DOCUMENT_ROOT"] . '/CRUD/Entities/Commentaire.php');
-include($_SERVER["DOCUMENT_ROOT"] . '/CRUD/Core/CommentaireC.php');
-include($_SERVER["DOCUMENT_ROOT"] . '/CRUD/Entities/Utilisateur.php');
-include($_SERVER["DOCUMENT_ROOT"] . '/CRUD/Core/UtilisateurC.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/integrationfinale/Entities/Commentaire.php');
+include($_SERVER["DOCUMENT_ROOT"] . '/integrationfinale/Core/CommentaireC.php');
+//include ($_SERVER["DOCUMENT_ROOT"] . '/integrationfinale/Core/UtilisateurCYesmine.php');
+	
 
 if (isset($_POST['com']) and isset($_POST['Identifiant']))
 {
-echo $_POST['Identifiant'];
-
-$utilisateur1C=new UtilisateurC();
-$resultat=$utilisateur1C->recupererUtilisateurId($_POST['Identifiant']);
-	foreach($resultat as $row)
-	{
-		$Nom=$row['nom'];
-		$Prenom=$row['prenom'];
-		$Identifiant=$row['identifiant'];
-	}
-var_dump($resultat);
-//Partie2
-/*
-var_dump($employe1);
-}
-*/
-//Partie3
-
-$commentaire1=new Commentaire($Nom,$Prenom,$Identifiant,$_POST['Identifiant'],$_POST['com'],date("d.m.Y"));
+$commentaire1=new Commentaire($_SESSION["nom"],$_SESSION["prenom"],$_SESSION["id"],$_SESSION["mail"],$_POST['Identifiant'],$_POST['com'],date("d.m.Y"),0);
 
 $commentaire1C=new CommentaireC();
 $commentaire1C->ajouterCommentaire($commentaire1);
-header('Location: single.php');
-	
-}else{
+header('Location:single.php?IdProduit='.$_POST['Identifiant']);
+}
+else
+{
 	echo "vérifier les champs";
 }
 ?>
+<?php
+}
+    else
+        header('location:./login.php');
+      ?>

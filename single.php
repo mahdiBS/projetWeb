@@ -1,3 +1,15 @@
+<?php 
+session_start();
+if(isset($_SESSION['login_in']))
+{
+	       include "../../Core/FideliteC.php";
+        $F=new FideliteC();
+
+        $result=$F->recupererfidelite($_SESSION["id"]);
+        foreach ($result as $r)
+            $pt=$r["pt_fd"];
+?>
+
 <!--A Design by W3layouts 
 Author: W3layout
 Author URL: http://w3layouts.com
@@ -8,10 +20,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <html>
 <head>
 <title>Grain de beauté | Single </title>
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../assets/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- Custom Theme files -->
 <!--theme-style-->
-<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />	
+<link href="../assets/css/style.css" rel="stylesheet" type="text/css" media="all" />	
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,12 +31,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!--theme-style-->
-<link href="css/style4.css" rel="stylesheet" type="text/css" media="all" />	
+<link href="../assets/css/style4.css" rel="stylesheet" type="text/css" media="all" />	
 <!--//theme-style-->
-<script src="js/jquery.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
 <!--- start-rate---->
-<script src="js/jstarbox.js"></script>
-	<link rel="stylesheet" href="css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
+<script src="../assets/js/jstarbox.js"></script>
+	<link rel="stylesheet" href="../assets/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
 		<script type="text/javascript">
 			jQuery(function() {
 			jQuery('.starbox').each(function() {
@@ -47,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		});
 		</script>
 <!---//End-rate---->
-<link href="css/form.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../assets/css/form.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 <body>
 <!--header-->
@@ -55,7 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="container">
 		<div class="head">
 			<div class=" logo">
-				<a href="index.html"><img src="images/logo.png" alt=""></a>	
+				<a href="index.html"><img src="../assets/images/logo.png" alt=""></a>	
 			</div>
 		</div>
 	</div>
@@ -63,9 +75,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 		<div class="col-sm-5 col-md-offset-2  header-login">
 					<ul >
-						<li><a href="login.html">Se connecter</a></li>
+						<?php if(!isset($_SESSION["login_in"])) { ?>
+						<li><a href="login.php">Se connecter</a></li>
+						<?php } ?>
+						<?php if(!isset($_SESSION["login_in"])) { ?>
 						<li><a href="register.html">S'inscrire</a></li>
-						<li><a href="checkout.html">Panier</a></li>
+						<?php } ?>
+						<?php if(isset($_SESSION["login_in"])) { ?>
+						<li><a href="logout.php">Log out</a></li>
+						<?php } ?>
+						<?php if(isset($_SESSION["login_in"])&& isset($_SESSION["type"])) { 
+							if($_SESSION["type"]!="guest")
+							{
+							?>
+						<li><a href="EditUser.php">Editer Profile</a></li>
+						<?php } } ?>
+						<?php if(isset($_SESSION["login_in"])&& isset($_SESSION["type"])) {
+								if($_SESSION["type"]=="admin")
+								{
+						 ?>
+						<li><a href="../../back/Views/examples/dashboard.html">Interface Admin</a></li>
+						<?php }
+					} ?>
 					</ul>
 				</div>
 				
@@ -103,7 +134,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
         <ul class="nav navbar-nav nav_1">
-            <li><a class="color" href="index.html">Acceuil</a></li>
+            <li><a class="color" href="index.php">Acceuil</a></li>
             
     		<li class="dropdown mega-dropdown active">
 			    <a class="color1" href="#" class="dropdown-toggle" data-toggle="dropdown">Parfums<span class="caret"></span></a>				
@@ -146,7 +177,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						
 						<div class="col1 col5">
-						<img src="images/me.png" class="img-responsive" alt="">
+						<img src="../assets/images/me.png" class="img-responsive" alt="">
 						</div>
 						<div class="clearfix"></div>
 					</div>                  
@@ -208,7 +239,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>							
 						</div>
 						<div class="col1 col5">
-						<img src="images/me1.png" class="img-responsive" alt="">
+						<img src="../assets/images/me1.png" class="img-responsive" alt="">
 						</div>
 						<div class="clearfix"></div>
 					</div>                  
@@ -259,7 +290,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								
 							</div>							
 											<div class="col1 col5">
-						<img src="images/me1.png" class="img-responsive" alt="">
+						<img src="../assets/images/me1.png" class="img-responsive" alt="">
 						</div>
 						<div class="clearfix"></div>
 					</div>                  
@@ -284,12 +315,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i></a></li>
 					</ul>
 					<div class="cart box_1">
-						<a href="checkout.html">
+						<a >
 						<h3> <div class="total">
-							<span class="simpleCart_total"></span></div>
-							<img src="images/cart.png" alt=""/></h3>
+							<span ><?php echo $_SESSION["nom"];?></span></div>
+							<img style="width: 20px;"src="../assets/images/utilisateur.png" alt=""/></h3>
 						</a>
-						<p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+						<p><a  class="simpleCart_empty">Pt Fidelite: <?php echo $pt;?></a></p>
 
 					</div>
 					<div class="clearfix"> </div>
@@ -297,8 +328,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<!----->
 
 						<!---pop-up-box---->					  
-			<link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
-			<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+			<link href="../assets/css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
+			<script src="../assets/js/jquery.magnific-popup.js" type="text/javascript"></script>
 			<!---//pop-up-box---->
 			<div id="small-dialog" class="mfp-hide">
 				<div class="search-top">
@@ -340,7 +371,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 </div>
 <?PHP
-include "../Core/ProduitC.php";
+include "../../Core/ProduitC.php";
 if (isset($_GET['IdProduit']))
 {
 $produit1C=new ProduitC();
@@ -366,16 +397,10 @@ foreach($listeProduits as $row){
 	<div class="col-md-5 grid">		
 		<div class="flexslider">
 			  <ul class="slides">
-			    <li data-thumb="images/<?php echo $row['Image'] ;?>">
-			        <div class="thumb-image"> <img src="images/<?php echo $row['Image'] ;?>" data-imagezoom="true" class="img-responsive"> </div>
+			    <li data-thumb="../assets/images/<?php echo $row['Image'] ;?>">
+			        <div class="thumb-image"> <img src="../assets/images/<?php echo $row['Image'] ;?>" data-imagezoom="true" class="img-responsive"> </div>
 			    </li>
-			    <li data-thumb="images/<?php echo $row['Image'] ;?>">
-			         <div class="thumb-image"> <img src="images/<?php echo $row['Image'] ;?>" data-imagezoom="true" class="img-responsive"> </div>
-			    </li>
-			    <li data-thumb="images/<?php echo $row['Image'] ;?>">
-			       <div class="thumb-image"> <img src="images/<?php echo $row['Image'] ;?>" data-imagezoom="true" class="img-responsive"> </div>
-
-			    </li> 
+			   
 
 			  </ul>
 
@@ -429,235 +454,131 @@ foreach($listeProduits as $row){
 			    <a href="#" class="add-to item_add hvr-skew-backward">Add to cart</a>
 			<div class="clearfix"> </div>
 			</div>
+
 		
-					</div>
-			<div class="clearfix"> </div>
-			<!---->
-			<div class="tab-head">
-			 <nav class="nav-sidebar">
-		<ul class="nav tabs">
-          <li class="active"><a href="#tab1" data-toggle="tab">Product Description</a></li>
-          <li class=""><a href="#tab2" data-toggle="tab">Additional Information</a></li> 
-          <li class=""><a href="#tab3" data-toggle="tab">Reviews</a></li>  
-		</ul>
-	</nav>
-	<div class="tab-content one">
-<div class="tab-pane active text-style" id="tab1">
- <div class="facts">
-									  <p > There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined </p>
-										<ul>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Research</li>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Design and Development</li>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Porting and Optimization</li>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>System integration</li>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Verification, Validation and Testing</li>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Maintenance and Support</li>
-										</ul>         
-</div>
-</div>
-<div class="tab-pane text-style" id="tab2">
-	
-									<div class="facts">									
-										<p > Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections </p>
-										<ul >
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Multimedia Systems</li>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Digital media adapters</li>
-											<li><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Set top boxes for HDTV and IPTV Player  </li>
-										</ul>
-							        </div>	
-
-</div>
-<div class="tab-pane text-style" id="tab3">
-<div class="facts">
 <?PHP
-include($_SERVER["DOCUMENT_ROOT"] . '/CRUD/Core/CommentaireC.php');
-$commentaire1C=new CommentaireC();
-$listeCommentaires=$commentaire1C->recupererCommentaire("yesmine");
-?>  
+include($_SERVER["DOCUMENT_ROOT"] . '/integrationfinale/Core/CommentaireC.php');
 
-<h1>Commentaires:</h1>        
+if (isset($_GET['IdProduit']))
+{
+
+$commentaire1C=new CommentaireC();
+$listeCommentaires=$commentaire1C->recupererCommentaire($_GET['IdProduit']);
+//var_dump($listeEmployes->fetchAll());
+?>
+	<div class="tab-content one" style="position: relative;width:500px;">
+<div class="tab-pane active text-style" id="tab1">
+ <div class="facts" style="width:2000px;"> 
+	<h1>Commentaires:</h1>        
 
               <form method="get">
                       <table>
                       <?php foreach ($listeCommentaires as $rec):?>
                       <tr>
                         <td>
-                            <label><?PHP echo $rec['id'];?></label> 
-                            <h5><?PHP echo $rec['com'];?></h5>
-                        </td>
-                        </tr>        
-                        <!--<tr>
-                              <td><form method="POST" action="supprimerCommentaire.php">
-                              <td><input type="submit" class="btn btn-fill btn-primary" name="supprimer" value="supprimer"></td>
-                              <input type="hidden" class="btn btn-fill btn-primary" value="<?PHP// echo $rec['id_prod'];?>" name="Identifiant">
-                              </form>
-                              </td>
-                              <td><a href="modifierReclamation.php?identifiant=<?PHP// $rec['id_prod']; ?>">
-                              Modifier</a></td>
-                              <td><a href="envoyerMail.php">
-                              Envoyer mail</a></td>                         
-                        </tr>-->
+                            <label><?PHP echo $rec['nom'].'-'.$rec['prenom']?></label> 
+                            <h5><?PHP echo $rec['com'] ?></h5>	
+                            <td><?PHP 
+                            	if(($_SESSION['id']) != ($rec['id']))
+                            	{?>
+                            		<a style="position: relative;right:500px;" href="signaler.php?idcom=<?PHP echo $rec['idcom'];?>&mail=<?PHP echo $rec['mail']; ?>">Signaler</a>
+                            <?PHP
+                            	}
+                            ?>
+                            	</td>
 
-                      
-                      <?php endforeach;?>
+                            <td><?PHP 
+                            	if(($_SESSION['id']) == ($rec['id']))
+                            	{?>
+                            		<a style="position: relative;right:900px;" href="/integrationfinale/back/Views/Avis/supprimerCommentaire.php?idcom=<?PHP echo $rec['idcom'];?>">Supprimer</a>
+                            <?PHP
+                            	}
+                            ?>
+                            	</td>
+                        </td>
+                            <tr>
+                            	<td>
+                            		<h5><?PHP echo $rec['dat'] ?></h5>
+                            	</td>
+<?PHP
+include_once($_SERVER["DOCUMENT_ROOT"] . '/integrationfinale/Core/JaimeC.php');
+
+$jaime1C=new JaimeC();
+
+?>
+                            	<td><a style="position: relative;right:600px;" href="action.php?t=1&identifiant=<?PHP echo $_SESSION['id']; ?>&idprod=<?PHP echo $_GET['IdProduit'];?>&idcom=<?PHP echo $rec['idcom'];?>">J'aime(<?PHP 
+                            		$listejaimes=$jaime1C->recupererNbj($rec['idcom']); 
+                            		echo $listejaimes->rowCount(); ?>)</a></td>
+<?PHP
+include_once($_SERVER["DOCUMENT_ROOT"] . '/integrationfinale/Core/JaimepasC.php');
+
+$jaimepas1C=new JaimepasC();
+ 
+?>                            	
+                            	<td><a style="position: relative;right:1050px;" href="action.php?t=2&identifiant=<?PHP echo $_SESSION['id']; ?>&idprod=<?PHP echo $_GET['IdProduit'];?>&idcom=<?PHP echo $rec['idcom'];?>"">J'aime pas (<?PHP 
+                            		$listejaimespas=$jaimepas1C->recupererNbjp($rec['idcom']);
+                            		echo $listejaimespas->rowCount(); ?>)</a></td> 
+
+
+                            </tr>
+                        </tr>        
+                      <?php endforeach; }?>
                     </table>
               </form>
-</div>	
-</div>
- </div>
-  <div class="clearfix"></div>
-  </div>
+						</div>
+						</div>
+						</div> 
+						<div class="col-md-6 contact-top">      
 						<form method="POST" action="ajouterCommentaire.php">
 						<table>							
 							<tr>
 								<td>
-		                        <textarea rows="4" cols="60" class="in-para" type="text" name="com"></textarea>				
+		                        <textarea style="position: relative;right:75px;" rows="4" cols="60" class="in-para" type="text" name="com"></textarea>				
 		                    	</td>
 							</tr>
 							<tr>
 								<td>
-									<a href="#" class="add-to item_add hvr-skew-backward">Commenter</a>
-									<input type="hidden" name="Identifiant" value="<?PHP echo "yesmine";?>">
+									<label class="hvr-skew-backward">
+									<input type="submit" value="Commenter">
+									<input type="hidden" name="Identifiant" value="<?PHP echo $_GET['IdProduit'];?>">
+									</label>
+									
 								</td>
+
 							</tr>
 						</table>
-						</form>			
+						</form>
+
+
+					</div>
+			<div class="clearfix"> </div>
+			<!---->
+			<div class="tab-head">
+			 <nav class="nav-sidebar">
+		
+  <div class="clearfix"></div>
+  </div>
+			<!---->	
 </div>
 <!----->
 
-<div class="col-md-3 product-bottom product-at">
-			<!--categories-->
-				<div class=" rsidebar span_1_of_left">
-						<h4 class="cate">Categories</h4>
-							 <ul class="menu-drop">
-							<li class="item1"><a href="#">Men </a>
-								<ul class="cute">
-									<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
-									<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
-									<li class="subitem3"><a href="product.html">Automatic Fails </a></li>
-								</ul>
-							</li>
-							<li class="item2"><a href="#">Women </a>
-								<ul class="cute">
-									<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
-									<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
-									<li class="subitem3"><a href="product.html">Automatic Fails </a></li>
-								</ul>
-							</li>
-							<li class="item3"><a href="#">Kids</a>
-								<ul class="cute">
-									<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
-									<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
-									<li class="subitem3"><a href="product.html">Automatic Fails</a></li>
-								</ul>
-							</li>
-							<li class="item4"><a href="#">Accessories</a>
-								<ul class="cute">
-									<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
-									<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
-									<li class="subitem3"><a href="product.html">Automatic Fails</a></li>
-								</ul>
-							</li>
-									
-							<li class="item4"><a href="#">Shoes</a>
-								<ul class="cute">
-									<li class="subitem1"><a href="product.html">Cute Kittens </a></li>
-									<li class="subitem2"><a href="product.html">Strange Stuff </a></li>
-									<li class="subitem3"><a href="product.html">Automatic Fails </a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				<!--initiate accordion-->
-						<script type="text/javascript">
-							$(function() {
-							    var menu_ul = $('.menu-drop > li > ul'),
-							           menu_a  = $('.menu-drop > li > a');
-							    menu_ul.hide();
-							    menu_a.click(function(e) {
-							        e.preventDefault();
-							        if(!$(this).hasClass('active')) {
-							            menu_a.removeClass('active');
-							            menu_ul.filter(':visible').slideUp('normal');
-							            $(this).addClass('active').next().stop(true,true).slideDown('normal');
-							        } else {
-							            $(this).removeClass('active');
-							            $(this).next().stop(true,true).slideUp('normal');
-							        }
-							    });
-							
-							});
-						</script>
-<!--//menu-->
- <section  class="sky-form">
-					<h4 class="cate">Discounts</h4>
-					 <div class="row row1 scroll-pane">
-						 <div class="col col-4">
-								<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Upto - 10% (20)</label>
-						 </div>
-						 <div class="col col-4">
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>40% - 50% (5)</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>30% - 20% (7)</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>10% - 5% (2)</label>
-								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Other(50)</label>
-						 </div>
-					 </div>
-				 </section> 				 				 
-				 
-					
-					 <!---->
-					 <section  class="sky-form">
-						<h4 class="cate">Type</h4>
-							<div class="row row1 scroll-pane">
-								<div class="col col-4">
-									<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Sofa Cum Beds (30)</label>
-								</div>
-								<div class="col col-4">
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Bags  (30)</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Caps & Hats (30)</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jackets & Coats   (30)</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jeans  (30)</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Shirts   (30)</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sunglasses  (30)</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Swimwear  (30)</label>
-								</div>
-							</div>
-				   </section>
-				   		<section  class="sky-form">
-						<h4 class="cate">Brand</h4>
-							<div class="row row1 scroll-pane">
-								<div class="col col-4">
-									<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Roadstar</label>
-								</div>
-								<div class="col col-4">
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Levis</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Persol</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Nike</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Edwin</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>New Balance</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Paul Smith</label>
-									<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Ray-Ban</label>
-								</div>
-							</div>
-				   </section>		
-		</div>
-		<div class="clearfix"> </div>
-	</div>
+
 	
 			<!--brand-->
+		</nav></div></div></div>
 		<div class="container">
 			<div class="brand">
 				<div class="col-md-3 brand-grid">
-					<img src="images/icone1.png" class="img-responsive" alt="">
+					<img src="../assets/images/icone1.png" class="img-responsive" alt="">
 				</div>
 				<div class="col-md-3 brand-grid">
-					<img src="images/icone2.png" class="img-responsive" alt="">
+					<img src="../assets/images/icone2.png" class="img-responsive" alt="">
 				</div>
 				<div class="col-md-3 brand-grid">
-					<img src="images/icone3.png" class="img-responsive" alt="">
+					<img src="../assets/images/icone3.png" class="img-responsive" alt="">
 				</div>
 				<div class="col-md-3 brand-grid">
-					<img src="images/icone4.png" class="img-responsive" alt="">
+					<img src="../assets/images/icone4.png" class="img-responsive" alt="">
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -671,7 +592,7 @@ $listeCommentaires=$commentaire1C->recupererCommentaire("yesmine");
 	<div class="footer-middle">
 				<div class="container">
 					<div class="col-md-3 footer-middle-in">
-						<a href="index.html"><img src="images/log.png" alt=""></a>
+						<a href="index.html"><img src="../assets/images/log.png" alt=""></a>
 						<p>Suspendisse sed accumsan risus. Curabitur rhoncus, elit vel tincidunt elementum, nunc urna tristique nisi, in interdum libero magna tristique ante. adipiscing varius. Vestibulum dolor lorem.</p>
 					</div>
 					
@@ -679,7 +600,7 @@ $listeCommentaires=$commentaire1C->recupererCommentaire("yesmine");
 						<h6>Information</h6>
 						<ul class=" in">
 							<li><a href="404.html">à propos de nous</a></li>
-							<li><a href="contact.html">Contacter nous</a></li>
+							<li><a href="travaillerAN.php">Travailler avec nous</a></li>
 							<li><a href="#">Haut de la page </a></li>
 							<li><a href="contact.html"><MAP>Plan du site</MAP></a></li>
 						</ul>
@@ -713,9 +634,9 @@ $listeCommentaires=$commentaire1C->recupererCommentaire("yesmine");
 			<div class="footer-bottom">
 				<div class="container">
 					<ul class="footer-bottom-top">
-						<li><a href="#"><img src="images/f1.png" class="img-responsive" alt=""></a></li>
-						<li><a href="#"><img src="images/f2.png" class="img-responsive" alt=""></a></li>
-						<li><a href="#"><img src="images/f3.png" class="img-responsive" alt=""></a></li>
+						<li><a href="#"><img src="../assets/images/f1.png" class="img-responsive" alt=""></a></li>
+						<li><a href="#"><img src="../assets/images/f2.png" class="img-responsive" alt=""></a></li>
+						<li><a href="#"><img src="../assets/images/f3.png" class="img-responsive" alt=""></a></li>
 					</ul>
 					<p class="footer-class">&copy; 2019 Grain de beauté. Tous droits réservés | Conçu par  <a href="http://Weboss.com/" target="_blank">Weboss </p>
 					<div class="clearfix"> </div>
@@ -723,11 +644,11 @@ $listeCommentaires=$commentaire1C->recupererCommentaire("yesmine");
 			</div>
 		</div>
 		<!--//footer-->
-<script src="js/imagezoom.js"></script>
+<script src="../assets/js/imagezoom.js"></script>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script defer src="js/jquery.flexslider.js"></script>
-<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+<script defer src="../assets/js/jquery.flexslider.js"></script>
+<link rel="stylesheet" href="../assets/css/flexslider.css" type="text/css" media="screen" />
 
 <script>
 // Can also be used with $(document).ready()
@@ -739,10 +660,15 @@ $(window).load(function() {
 });
 </script>
 
-	<script src="js/simpleCart.min.js"> </script>
+	<script src="../assets/js/simpleCart.min.js"> </script>
 <!-- slide -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
 
 
 </body>
 </html>
+<?php
+}
+    else
+        header('location:./login.php');
+      ?>
